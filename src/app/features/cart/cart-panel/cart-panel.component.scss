@@ -1,0 +1,12 @@
+.card {
+    position: sticky;
+    top: 1rem;
+}
+
+button {
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        transform: scale(1.05);
+    }
+}

@@ -1,1 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+/* Estilo base con Figtree */
+body {
+    font-family: 'Figtree', sans-serif;
+}
+
+h1,
+h2,
+h3,
+.fw-bold {
+    font-weight: 700;
+}
+
+h4,
+h5,
+h6,
+.fw-semibold {
+    font-weight: 600;
+}
+
+body,
+p,
+span,
+.fw-normal {
+    font-weight: 400;
+}
