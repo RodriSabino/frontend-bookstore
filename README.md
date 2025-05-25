@@ -1,59 +1,91 @@
-# FrontendBookstore
+# 📚 Bookstore POS – Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.13.
+Frontend desarrollado con **Angular standalone components**, conectado a una API RESTful para gestionar libros, órdenes y procesos de checkout en una librería.
 
-## Development server
+## 🚀 Características principales
 
-To start a local development server, run:
+- Visualización de libros con stock e imágenes
+- Carrito de compras interactivo con validaciones de stock
+- Checkout con validación de cliente y generación de orden
+- Gestión de órdenes con paginación
+- Interfaz responsive para escritorio y móvil
+- Toasts de éxito y error para mejor experiencia de usuario
+
+## 📦 Tecnologías utilizadas
+
+- Angular 19
+- Bootstrap 5
+- RxJS
+- TypeScript
+- API Backend (Node.js + Express + Prisma)
+
+## 📁 Estructura del proyecto
+
+```
+src/
+├── app/
+│   ├── core/                # Servicios y modelos globales
+│   ├── features/            # Módulos funcionales (books, cart, orders, checkout)
+│   ├── layout/              # Componentes de layout como navbar y main-layout
+│   └── app.routes.ts        # Definición de rutas principales
+```
+
+## 🔧 Instalación
+
+1. Clona el repositorio:
+
+```bash
+git clone https://github.com/bookstore-pos/frontend-bookstore.git
+cd bookstore-frontend
+```
+
+2. Instala las dependencias:
+
+```bash
+npm install
+```
+
+3. Ejecuta el proyecto en modo desarrollo:
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+> La aplicación se ejecutará en: [http://localhost:4200](http://localhost:4200)
 
-## Code scaffolding
+## 🔌 Configuración de entorno
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Para que la app funcione correctamente, asegúrate de que la API backend esté corriendo en `http://localhost:3000`. Puedes cambiar esta URL desde el archivo:
 
-```bash
-ng generate component component-name
+```
+src/environments/environment.ts
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Ejemplo:
 
-```bash
-ng generate --help
+```ts
+export const environment = {
+  production: false,
+  apiBaseUrl: 'http://localhost:3000/api'
+};
 ```
 
-## Building
+## 📸 Screenshots
 
-To build the project run:
+### 💻 Desktop View
 
-```bash
-ng build
-```
+Pantalla de Books
+![Books Screen](./docs/screens/front-1.jpeg)
+Modal de Recoleccion de datos del client
+![Form Functionality](./docs/screens/front-2.jpeg)
+Toast de compra exitosa
+![Order Listing](./docs/screens/front-3.jpeg)
+Pantalla de Orders
+![Checkout Form](./docs/screens/front-4.jpeg)
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### 📱 Mobile View
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Pantalla de Books
+![Books - Mobile](./docs/screens/front-movil-1.jpeg)
+Pantalla de Orders
+![Cart - Mobile](./docs/screens/front-movil-2.jpeg)

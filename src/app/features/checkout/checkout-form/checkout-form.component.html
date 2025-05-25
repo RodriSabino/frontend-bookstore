@@ -1,0 +1,64 @@
+<form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Nombres</label>
+        <input type="text" class="form-control"
+          [class.is-invalid]="checkoutForm.get('first_name')?.invalid && checkoutForm.get('first_name')?.touched"
+          formControlName="first_name" />
+        <div class="invalid-feedback">El nombre es obligatorio.</div>
+      </div>
+  
+      <div class="col-md-6">
+        <label class="form-label">Apellidos</label>
+        <input type="text" class="form-control"
+          [class.is-invalid]="checkoutForm.get('last_name')?.invalid && checkoutForm.get('last_name')?.touched"
+          formControlName="last_name" />
+        <div class="invalid-feedback">El apellido es obligatorio.</div>
+      </div>
+  
+      <div class="col-md-6">
+        <label class="form-label">Tipo de Documento</label>
+        <select class="form-select"
+          [class.is-invalid]="checkoutForm.get('doc_type')?.invalid && checkoutForm.get('doc_type')?.touched"
+          formControlName="doc_type">
+          <option value="">Seleccionar</option>
+          <option value="D">DNI</option>
+          <option value="R">RUC</option>
+          <option value="X">CE</option>
+        </select>
+        <div class="invalid-feedback">Selecciona un tipo de documento.</div>
+      </div>
+  
+      <div class="col-md-6">
+        <label class="form-label">Número de Documento</label>
+        <input type="text" class="form-control"
+          [class.is-invalid]="checkoutForm.get('doc_number')?.invalid && checkoutForm.get('doc_number')?.touched"
+          formControlName="doc_number" />
+        <div class="invalid-feedback">Número inválido o incompleto.</div>
+      </div>
+  
+      <div class="col-md-6">
+        <label class="form-label">Teléfono</label>
+        <input type="text" class="form-control"
+          [class.is-invalid]="checkoutForm.get('phone')?.invalid && checkoutForm.get('phone')?.touched"
+          formControlName="phone" />
+        <div class="invalid-feedback">El teléfono es obligatorio.</div>
+      </div>
+  
+      <div class="col-md-6">
+        <label class="form-label">Correo electrónico</label>
+        <input type="email" class="form-control"
+          [class.is-invalid]="checkoutForm.get('email')?.invalid && checkoutForm.get('email')?.touched"
+          formControlName="email" />
+        <div class="invalid-feedback">Correo electrónico inválido.</div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Tipo de Comprobante</label>
+        <select class="form-select" formControlName="voucher_type">
+          <option value="B">Boleta</option>
+          <option value="F">Factura</option>
+        </select>
+      </div>
+    </div>
+  </form>

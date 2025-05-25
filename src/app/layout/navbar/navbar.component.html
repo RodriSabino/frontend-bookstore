@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 py-2">
+  <a class="navbar-brand fw-bold" routerLink="/">Bookstore POS</a>
+
+  <button
+    class="navbar-toggler"
+    type="button"
+    (click)="toggleNavbar()"
+    [attr.aria-expanded]="!isCollapsed"
+    aria-controls="navbarContent"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div [ngClass]="{ 'collapse': isCollapsed, 'navbar-collapse': true }" id="navbarContent">
+    <div class="btn-group" role="group" aria-label="Navigation buttons">
+      <button class="btn btn-outline-light" (click)="navigateTo('/books')">Books</button>
+      <button class="btn btn-outline-light" (click)="navigateTo('/orders')">Orders</button>
+    </div>
+
+    <div class="d-lg-none mt-2 mt-lg-0">
+      <!-- Carrito visible solo en móviles -->
+      <app-cart-panel></app-cart-panel>
+    </div>
+  </div>
+</nav>
