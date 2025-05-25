@@ -52,5 +52,13 @@
           formControlName="email" />
         <div class="invalid-feedback">Correo electrónico inválido.</div>
       </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Tipo de Comprobante</label>
+        <select class="form-select" formControlName="voucher_type">
+          <option value="B">Boleta</option>
+          <option value="F">Factura</option>
+        </select>
+      </div>
     </div>
   </form>

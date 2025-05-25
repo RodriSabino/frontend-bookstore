@@ -3,59 +3,81 @@ import { Book } from '../../../core/models/book.model'; // define este modelo
 import { BookService } from '../../../core/services/book.service'; // lo creamos luego
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { CartService } from '../../../core/services/cart.service';
+declare var bootstrap: any;
 @Component({
   selector: 'app-book-list',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.scss'
 })
 export class BookListComponent implements OnInit {
   searchTerm = '';
-  books = [
-    {
-      id: 1,
-      isbn: '9783161484100',
-      name: 'El Señor de los Anillos',
-      stock: 5,
-      price: 49.99,
-      image: 'https://m.media-amazon.com/images/I/81eB+7+CkUL._AC_UF1000,1000_QL80_.jpg'
-    },
-    {
-      id: 2,
-      isbn: '9788478884452',
-      name: 'Harry Potter y la Piedra Filosofal',
-      stock: 8,
-      price: 39.99,
-      image: 'https://static.wikia.nocookie.net/esharrypotter/images/9/9a/Harry_Potter_y_la_Piedra_Filosofal_Portada_Espa%C3%B1ol.PNG/revision/latest/scale-to-width/360?cb=20151020165725'
-    },
-    {
-      id: 3,
-      isbn: '9788478884452',
-      name: 'Harry Potter y la Piedra Filosofal',
-      stock: 8,
-      price: 39.99,
-      image: 'https://static.wikia.nocookie.net/esharrypotter/images/9/9a/Harry_Potter_y_la_Piedra_Filosofal_Portada_Espa%C3%B1ol.PNG/revision/latest/scale-to-width/360?cb=20151020165725'
-    },
-    {
-      id: 4,
-      isbn: '9788478884452',
-      name: 'Harry Potter y la Piedra Filosofal',
-      stock: 8,
-      price: 39.99,
-      image: 'https://static.wikia.nocookie.net/esharrypotter/images/9/9a/Harry_Potter_y_la_Piedra_Filosofal_Portada_Espa%C3%B1ol.PNG/revision/latest/scale-to-width/360?cb=20151020165725'
-    }, 
-    {
-      id: 5,
-      isbn: '9788478884452',
-      name: 'Harry Potter y la Piedra Filosofal',
-      stock: 8,
-      price: 39.99,
-      image: 'https://static.wikia.nocookie.net/esharrypotter/images/9/9a/Harry_Potter_y_la_Piedra_Filosofal_Portada_Espa%C3%B1ol.PNG/revision/latest/scale-to-width/360?cb=20151020165725'
+  books: Book[] = [];
+
+  constructor(private bookService: BookService, private cartService: CartService) { }
+
+  ngOnInit(): void {
+    this.loadBooks();
+  }
+  loadBooks(): void {
+    this.bookService.getAllBooks().subscribe({
+      next: books => this.books = books,
+      error: err => console.error('Error cargando libros', err)
+    });
+  }
+  addToCart(book: Book): void {
+    const cart = this.cartService.getCart();
+    const itemInCart = cart.find(item => item.book.id === book.id);
+    const currentQuantity = itemInCart?.quantity ?? 0;
+  
+    // Validar que haya stock suficiente
+    if (book.stock <= 0) {
+      this.showErrorToast(`❌ No hay stock disponible para "${book.name}"`);
+      return;
     }
-  ];
+  
+    if (currentQuantity >= book.stock) {
+      this.showErrorToast(`❌ Solo hay ${book.stock} unidades disponibles de "${book.name}"`);
+      return;
+    }
+  
+    // Agrega al carrito si pasa validaciones
+    this.cartService.addToCart(book);
+    this.showAddToCartToast(book.name);
+  }
+  onSearch(): void {
+    if (this.searchTerm.trim()) {
+      this.bookService.searchBooks(this.searchTerm.trim()).subscribe({
+        next: books => this.books = books,
+        error: err => console.error('Error en búsqueda', err)
+      });
+    } else {
+      this.loadBooks();
+    }
+  }
+  
+  showAddToCartToast(bookName: string): void {
+    const toastElement = document.getElementById('addToCartToast');
+    const toastBody = document.getElementById('addToCartToastBody');
+  
+    if (toastElement && toastBody) {
+      toastBody.textContent = `${bookName} ha sido agregado al carrito.`;
+  
+      const toast = new bootstrap.Toast(toastElement, { delay: 3000 });
+      toast.show();
+    }
+  }
+  showErrorToast(message: string): void {
+  const toastElement = document.getElementById('errorToast');
+  const toastBody = document.getElementById('errorToastBody');
 
-  constructor() {}
+  if (toastElement && toastBody) {
+    toastBody.textContent = message;
 
-  ngOnInit(): void {}
+    const toast = new bootstrap.Toast(toastElement, { delay: 4000 });
+    toast.show();
+  }
+}
 }

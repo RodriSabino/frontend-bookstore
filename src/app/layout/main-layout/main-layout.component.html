@@ -3,18 +3,18 @@
     <app-navbar></app-navbar>
 
     <!-- Contenido principal -->
-    <div class="flex-grow-1 overflow-hidden">
-        <div class="row h-100">
-            <!-- Sección de libros con scroll -->
-            <div class="col-md-8 h-100 overflow-auto pe-0">
-                <router-outlet></router-outlet>
+    <div class="flex-grow-1 overflow-hidden d-flex flex-column flex-md-row">
+        <div class="row flex-grow-1 overflow-hidden">
+            <!-- Libros -->
+            <div class="col-12 col-md-8 h-100 overflow-auto pe-md-0">
+              <router-outlet></router-outlet>
             </div>
-
-            <!-- Carrito fijo sin scroll -->
-            <div class="col-md-4 bg-white border-start h-100 pe-4">
-                <app-cart-panel></app-cart-panel>
+          
+            <!-- Carrito -->
+            <div class="col-12 col-md-4 bg-white border-top border-md-top-0 border-md-start h-auto h-md-100 pe-md-4 mt-3 mt-md-0">
+              <app-cart-panel></app-cart-panel>
             </div>
-        </div>
+          </div>
     </div>
 </div>
 
@@ -28,7 +28,7 @@
             </div>
             <div class="modal-body">
                 <!-- Aquí va el componente del formulario -->
-                <app-checkout-form (purchaseConfirmed)="handlePurchaseConfirmed()"></app-checkout-form>
+                <app-checkout-form #checkoutFormRef></app-checkout-form>
             </div>
             <div class="modal-footer">
                 <!-- Este botón NO está dentro del componente, pero sí dentro del modal -->
@@ -45,7 +45,21 @@
         aria-atomic="true">
         <div class="d-flex">
             <div class="toast-body">
-                ✅ Compra confirmada con éxito.
+                Compra confirmada con éxito.
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                aria-label="Cerrar"></button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast: Libro agregado -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999;">
+    <div class="toast align-items-center text-bg-primary border-0" id="addToCartToast" role="alert"
+        aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body" id="addToCartToastBody">
+                Libro agregado al carrito.
             </div>
             <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
                 aria-label="Cerrar"></button>

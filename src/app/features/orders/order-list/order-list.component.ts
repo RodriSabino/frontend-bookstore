@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { OrderService } from '../../../core/services/order.service';
+import { Order } from '../../../core/models/order.model';
 
 @Component({
   selector: 'app-order-list',
@@ -9,48 +11,50 @@ import { CommonModule } from '@angular/common';
   styleUrl: './order-list.component.scss'
 })
 export class OrderListComponent {
-  ordersPerPage = 3;
+  ordersPerPage = 4;
   currentPage = 1;
+  totalPages = 1;
+  orders: Order[] = [];
 
-  orders = [
-    {
-      id: 1,
-      client: 'Juan Pérez',
-      voucher: 'B001',
-      pdfUrl: '#',
-      items: [
-        { name: 'Harry Potter', quantity: 2, price: 45.9 },
-        { name: 'El Principito', quantity: 1, price: 30 },
-      ],
-    },
-    {
-      id: 2,
-      client: 'María López',
-      voucher: 'B002',
-      pdfUrl: '#',
-      items: [{ name: 'Cien años de soledad', quantity: 1, price: 55 }],
-    },
-    {
-      id: 3,
-      client: 'Carlos Ruiz',
-      voucher: 'B003',
-      pdfUrl: '#',
-      items: [
-        { name: 'Don Quijote', quantity: 1, price: 60 },
-        { name: '1984', quantity: 1, price: 40 },
-      ],
-    },
-    {
-      id: 4,
-      client: 'Ana Torres',
-      voucher: 'B004',
-      pdfUrl: '#',
-      items: [{ name: 'La Odisea', quantity: 2, price: 35 }],
-    },
-  ];
+  constructor(private orderService: OrderService) {}
 
-  get totalPages(): number {
-    return Math.ceil(this.orders.length / this.ordersPerPage);
+  ngOnInit(): void {
+    this.fetchOrders();
+  }
+
+  fetchOrders(): void {
+    this.orderService.getOrders(this.currentPage, this.ordersPerPage).subscribe({
+      next: (res) => {
+        this.orders = res.data;
+        this.totalPages = res.meta.totalPages;
+      },
+      error: (err) => {
+        console.error('Error al cargar órdenes', err);
+      }
+    });
+  }
+
+  goToPage(page: number): void {
+    this.currentPage = page;
+    this.fetchOrders();
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.fetchOrders();
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.fetchOrders();
+    }
+  }
+
+  getOrderTotal(order: Order): number {
+    return order.details.reduce((acc, item) => acc + parseFloat(item.price) * item.quantity, 0);
   }
 
   get totalPagesArray(): number[] {
@@ -59,27 +63,7 @@ export class OrderListComponent {
       .map((_, i) => i + 1);
   }
 
-  get paginatedOrders() {
-    const start = (this.currentPage - 1) * this.ordersPerPage;
-    return this.orders.slice(start, start + this.ordersPerPage);
-  }
-
-  goToPage(page: number) {
-    this.currentPage = page;
-  }
-
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-    }
-  }
-
-  prevPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-    }
-  }
-  getOrderTotal(order: any): number {
-    return order.items.reduce((acc: number, item: any) => acc + item.price * item.quantity, 0);
+  get paginatedOrders(): Order[] {
+    return this.orders; // Ya paginados por el backend
   }
 }

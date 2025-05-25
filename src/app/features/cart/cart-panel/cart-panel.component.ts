@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CheckoutFormComponent } from '../../checkout/checkout-form/checkout-form.component';
+import { CartService, CartItem } from '../../../core/services/cart.service';
 declare var bootstrap: any;
 
 @Component({
@@ -10,31 +11,34 @@ declare var bootstrap: any;
   styleUrl: './cart-panel.component.scss'
 })
 export class CartPanelComponent {
-  cart = [
-    { id: 1, name: 'Harry Potter', quantity: 2, price: 50 },
-    { id: 2, name: '1984', quantity: 1, price: 45 }
-  ];
+  cart: CartItem[] = [];
 
+  constructor(private cartService: CartService) {}
+
+  ngOnInit(): void {
+    this.cartService.cart$.subscribe(items => {
+      this.cart = items;
+    });
+  }
+
+  increment(item: CartItem): void {
+    this.cartService.updateQuantity(item.book.id, item.quantity + 1);
+  }
+
+  decrement(item: CartItem): void {
+    this.cartService.updateQuantity(item.book.id, item.quantity - 1);
+  }
+
+  remove(item: CartItem): void {
+    this.cartService.removeFromCart(item.book.id);
+  }
 
   get total(): number {
-    return this.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    return this.cartService.getTotal();
   }
 
-  resetCart() {
-    this.cart = [];
-  }
-
-
-  increment(item: any) {
-    item.quantity++;
-  }
-  
-  decrement(item: any) {
-    if (item.quantity > 1) item.quantity--;
-  }
-  
-  remove(item: any) {
-    this.cart = this.cart.filter(i => i.id !== item.id);
+  resetCart(): void {
+    this.cartService.clearCart();
   }
 
 }
