@@ -29,7 +29,7 @@ export class CheckoutFormComponent {
       doc_number: ['', [Validators.required, Validators.minLength(8)]],
       phone: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      voucher_type: ['B', Validators.required]  // <- Nuevo campo
+      voucher_type: ['B', Validators.required]  
     });
   }
 

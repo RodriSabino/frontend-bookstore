@@ -53,7 +53,7 @@ export class CartService {
     return [...this.cartItems];
   }
   getCart(): CartItem[] {
-    return [...this.cartItems]; // ✅ devuelve el array correcto
+    return [...this.cartItems]; 
   }
   getTotal(): number {
     return this.cartItems.reduce((acc, item) => acc + item.book.price * item.quantity, 0);

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CartPanelComponent } from '../../features/cart/cart-panel/cart-panel.component';
-import { CommonModule } from '@angular/common'; // <-- AÑADE ESTO
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',

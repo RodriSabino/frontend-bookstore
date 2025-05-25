@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Book } from '../../../core/models/book.model'; // define este modelo
-import { BookService } from '../../../core/services/book.service'; // lo creamos luego
+import { Book } from '../../../core/models/book.model'; 
+import { BookService } from '../../../core/services/book.service'; 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../../../core/services/cart.service';

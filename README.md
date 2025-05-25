@@ -48,7 +48,7 @@ npm install
 3. Ejecuta el proyecto en modo desarrollo:
 
 ```bash
-npm run dev
+ng serve
 ```
 
 > La aplicación se ejecutará en: [http://localhost:4200](http://localhost:4200)

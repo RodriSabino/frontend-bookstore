@@ -53,7 +53,7 @@ export class MainLayoutComponent implements OnInit {
     if (backdrop) {
       backdrop.remove();
       document.body.classList.remove('modal-open');
-      document.body.style.overflow = 'auto'; // 👈 previene scroll bloqueado
+      document.body.style.overflow = 'auto'; 
     }
   }
   confirmPurchase(): void {
@@ -72,7 +72,5 @@ export class MainLayoutComponent implements OnInit {
     this.confirmationModal?.show();
   }
 
-  resetCart() {
-    // Aquí puedes vaciar el carrito si lo manejas desde el servicio
-  }
+ 
 }

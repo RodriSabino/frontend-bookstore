@@ -64,6 +64,6 @@ export class OrderListComponent {
   }
 
   get paginatedOrders(): Order[] {
-    return this.orders; // Ya paginados por el backend
+    return this.orders; 
   }
 }
